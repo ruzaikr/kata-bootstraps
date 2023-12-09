@@ -1,29 +1,25 @@
 public class Solution {
 
-    public int maxProfit(int[] prices) {
-
-        if (prices.length < 2) {
-            return 0;
+    public boolean isPalindrome(String s) {
+        if (s.length() == 1) {
+            return true;
         }
 
+        s = s.toLowerCase().replaceAll("[^a-z0-9]", "");
 
-        int maxProfit = 0;
-        int l = 0;
-        for (int r = 1; r < prices.length; r++) {
+        final int maxI = s.length() / 2 - 1;
 
-            int diff = prices[r] - prices[l];
+        final char[] chars = s.toCharArray();
 
-            if (diff > 0) {
-                if (diff > maxProfit) {
-                    maxProfit = diff;
-                }
-            } else {
-                l = r;
+        for (int i = 0; i <= maxI; i++) {
+            int j = s.length() - i - 1;
+
+            if (chars[i] != chars[j]) {
+                return false;
             }
-
         }
 
-        return maxProfit;
+        return true;
     }
 
 }

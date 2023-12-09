@@ -9,18 +9,22 @@ class SolutionTest {
 
     private static Stream<Arguments> getArgsForTestMaxProfit(){
         return Stream.of(
-            Arguments.of(new int[]{}, 0),
-            Arguments.of(new int[]{1}, 0),
-            Arguments.of(new int[]{7, 1, 5, 3, 6, 4}, 5)
+            Arguments.of(" ", true),
+            Arguments.of("b", true),
+            Arguments.of("tot", true),
+            Arguments.of("toot", true),
+            Arguments.of("A man, a plan, a canal: Panama", true),
+            Arguments.of("race a car", false),
+            Arguments.of("0P", false)
         );
     }
 
     @ParameterizedTest
     @MethodSource("getArgsForTestMaxProfit")
-    void testMaxProfit(final int[] input, final int expectedMaxProfit) {
+    void testMaxProfit(final String input, final boolean expectedIsPalindrome) {
         final Solution solution = new Solution();
-        final int maxProfit = solution.maxProfit(input);
-        assertEquals(maxProfit, expectedMaxProfit);
+        final boolean isPalindrome = solution.isPalindrome(input);
+        assertEquals(isPalindrome, expectedIsPalindrome);
     }
 
 }
