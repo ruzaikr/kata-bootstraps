@@ -1,25 +1,24 @@
 public class Solution {
 
-    public boolean isPalindrome(String s) {
-        if (s.length() == 1) {
-            return true;
+    public TreeNode invertTree(TreeNode root) {
+        if (root == null) {
+            return null;
         }
 
-        s = s.toLowerCase().replaceAll("[^a-z0-9]", "");
-
-        final int maxI = s.length() / 2 - 1;
-
-        final char[] chars = s.toCharArray();
-
-        for (int i = 0; i <= maxI; i++) {
-            int j = s.length() - i - 1;
-
-            if (chars[i] != chars[j]) {
-                return false;
-            }
+        if (root.left != null || root.right != null) {
+            final TreeNode temp = root.left;
+            root.left = root.right;
+            root.right = temp;
         }
 
-        return true;
+        if (root.left != null) {
+            root.left = invertTree(root.left);
+        }
+        if (root.right != null) {
+            root.right = invertTree(root.right);
+        }
+
+        return root;
     }
 
 }
