@@ -7,21 +7,19 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class SolutionTest {
 
-    private static Stream<Arguments> getArgsForTestIsAnagram() {
+    private static Stream<Arguments> getArgsForTestSearch() {
         return Stream.of(
-            Arguments.of("a", "a", true),
-            Arguments.of("anagram", "nagaram", true),
-            Arguments.of("anagram", "nagarama", false),
-            Arguments.of("anagram", "nagaxam", false)
+            Arguments.of(new int[]{-1,0,3,5,9,12}, 9, true),
+            Arguments.of(new int[]{1}, 1, true)
         );
     }
 
     @ParameterizedTest
-    @MethodSource("getArgsForTestIsAnagram")
-    void testIsAnagram(String s, String t, boolean expectedIsAnagram) {
+    @MethodSource("getArgsForTestSearch")
+    void testSearch(int[] nums, int target, boolean expected) {
         final Solution solution = new Solution();
-        final boolean isAnagram = solution.isAnagram(s, t);
-        assertEquals(expectedIsAnagram, isAnagram);
+        final boolean exists = solution.search(nums, target);
+        assertEquals(expected, exists);
     }
 
 }
