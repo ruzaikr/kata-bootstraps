@@ -1,27 +1,27 @@
-import java.util.Arrays;
-
 public class Solution {
 
-    public boolean search(int[] nums, int target) {
-        if (nums.length == 0) {
-            return false;
+    public int search(int[] nums, int target) {
+
+        if (nums.length == 1 && nums[0] == target) {
+            return 0;
         }
 
-        if (nums.length > 1) {
-            int sepIndex = nums.length / 2 - 1;
+        int l = 0;
+        int r = nums.length - 1;
+        do {
+            int mid = (l+r)/2;
 
-            int[] firstHalf = Arrays.copyOfRange(nums, 0, sepIndex + 1);
-            int[] secondHalf = Arrays.copyOfRange(nums, sepIndex + 1, nums.length);
-
-            if (search(firstHalf, target)) {
-                return true;
+            if (target > nums[mid]) {
+                l = mid + 1;
+            } else if (target < nums[mid]) {
+                r = mid - 1;
+            } else {
+                return mid;
             }
-            if (search(secondHalf, target)) {
-                return true;
-            }
-        }
 
-        return nums[0] == target;
+        } while (l <= r);
+
+        return -1;
     }
 
 }
