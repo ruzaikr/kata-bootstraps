@@ -1,27 +1,35 @@
 public class Solution {
 
-    public int search(int[] nums, int target) {
+    public int[][] floodFill(int[][] image, int sr, int sc, int color) {
 
-        if (nums.length == 1 && nums[0] == target) {
-            return 0;
+        if (image[sr][sc] == color) {
+            return image;
         }
 
-        int l = 0;
-        int r = nums.length - 1;
-        do {
-            int mid = (l+r)/2;
+        int prevColor = image[sr][sc];
+        image[sr][sc] = color;
 
-            if (target > nums[mid]) {
-                l = mid + 1;
-            } else if (target < nums[mid]) {
-                r = mid - 1;
-            } else {
-                return mid;
-            }
+        // top
+        if (sr - 1 >= 0 && image[sr-1][sc] == prevColor) {
+            image =  floodFill(image, sr-1, sc, color);
+        }
 
-        } while (l <= r);
+        // right
+        if (sc + 1 <= (image[sr].length -1) && image[sr][sc+1] == prevColor) {
+            image =  floodFill(image, sr, sc+1, color);
+        }
 
-        return -1;
+        // down
+        if (sr + 1 <= (image.length -1) && image[sr+1][sc] == prevColor) {
+            image =  floodFill(image, sr+1, sc, color);
+        }
+
+        // left
+        if (sc - 1 >= 0 && image[sr][sc-1] == prevColor) {
+            image =  floodFill(image, sr, sc-1, color);
+        }
+
+        return image;
     }
 
 }
