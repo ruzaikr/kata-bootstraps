@@ -1,6 +1,3 @@
-import java.util.HashSet;
-import java.util.Set;
-
 public class Solution {
 
     public boolean hasCycle(ListNode head) {
@@ -8,18 +5,31 @@ public class Solution {
             return false;
         }
 
-        Set<ListNode> visited = new HashSet<>();
+        ListNode tortoise = head;
+        ListNode hare;
 
-        ListNode current = head;
-        while (current != null) {
-            if (visited.contains(current)) {
-                return true;
-            }
-            visited.add(current);
-            current = current.next;
+        if (head.next == null || head.next.next == null) {
+            return false;
+        } else {
+            hare = head.next.next;
         }
 
-        return false;
+
+        while (true) {
+
+            if (hare == tortoise) {
+                return true;
+            }
+
+            tortoise = tortoise.next;
+
+            if (hare.next == null || hare.next.next == null) {
+                return false;
+            }
+
+            hare = hare.next.next;
+        }
+
     }
 
 }
