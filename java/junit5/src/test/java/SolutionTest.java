@@ -7,21 +7,25 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class SolutionTest {
 
-    private static Stream<Arguments> getArgsForTestCanConstruct() {
+    private static Stream<Arguments> getArgsForTestFib() {
         return Stream.of(
-            Arguments.of("aa", "aab", true)
+            Arguments.of(0, 0),
+            Arguments.of(1, 1),
+            Arguments.of(4, 3),
+            Arguments.of(8, 21),
+            Arguments.of(6, 8)
         );
     }
 
     @ParameterizedTest
-    @MethodSource("getArgsForTestCanConstruct")
-    void testCanConstruct(String ransomNote, String magazine, boolean expectedCanConstruct) {
+    @MethodSource("getArgsForTestFib")
+    void testFib(int input, int expectedFib) {
 
         final Solution solution = new Solution();
 
-        final boolean canConstruct = solution.canConstruct(ransomNote, magazine);
+        final int fib = solution.fib(input);
 
-        assertEquals(expectedCanConstruct, canConstruct);
+        assertEquals(expectedFib, fib);
 
 
     }
