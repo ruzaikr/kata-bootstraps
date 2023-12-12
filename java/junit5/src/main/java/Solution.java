@@ -1,29 +1,38 @@
+import java.util.HashMap;
+import java.util.Map;
+
 public class Solution {
 
-    private boolean isBadVersion(int x) {
-        return x >=4;
-    }
+    public boolean canConstruct(String ransomNote, String magazine) {
 
-    public int firstBadVersion(int n) {
+        if (ransomNote.length() > magazine.length()) {
+            return false;
+        }
 
-        int result = n;
-        int left = 1;
-        int right = n;
-        int mid = (left+right)/2;
+        if (ransomNote.length() == 1 && magazine.length() == 1) {
+            return ransomNote.equals(magazine);
+        }
 
-        while (left <= right) {
-            boolean isMidBad = isBadVersion(mid);
+        final Map<Character, Integer> charOccurencesInMagazine = new HashMap<>();
 
-            if (isMidBad) {
-                result = mid;
-                right = mid - 1;
-            } else {
-                left = mid + 1;
+        final char[] charsMagazine = magazine.toCharArray();
+        for (char charMagazine : charsMagazine) {
+            final int occurencesOfCharMagazine = charOccurencesInMagazine.getOrDefault(charMagazine, 0);
+            charOccurencesInMagazine.put(charMagazine, occurencesOfCharMagazine + 1);
+        }
+
+        final char[] charsRansomNote = ransomNote.toCharArray();
+        for (char charRansomNote : charsRansomNote) {
+            final int occurencesOfCharRansomNote = charOccurencesInMagazine.getOrDefault(charRansomNote, 0);
+
+            if (occurencesOfCharRansomNote == 0) {
+                return false;
             }
 
-            mid = (left+right)/2;
+            charOccurencesInMagazine.put(charRansomNote, occurencesOfCharRansomNote - 1);
         }
-        return result;
+
+        return true;
     }
 
 }
