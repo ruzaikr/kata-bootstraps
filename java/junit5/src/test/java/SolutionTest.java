@@ -1,29 +1,35 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.stream.Stream;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.api.Test;
 
 class SolutionTest {
 
-    private static Stream<Arguments> getArgsForTestLongestPalindrome() {
-        return Stream.of(
-            Arguments.of("abccccdd", 7),
-            Arguments.of("a", 1)
-        );
-    }
+    @Test
+    void testReverseList() {
 
-    @ParameterizedTest
-    @MethodSource("getArgsForTestLongestPalindrome")
-    void testLongestPalindrome(String s, int expectedLength) {
+        final ListNode head = new ListNode(
+            1, new ListNode(
+                2, new ListNode(
+                    3, new ListNode(
+                        4, new ListNode(
+                            5)))));
 
         final Solution solution = new Solution();
 
-        final int length = solution.longestPalindrome(s);
+        final ListNode reversedHead = solution.reverseList(head);
 
-        assertEquals(expectedLength, length);
+        final ListNode expectedReversedHead = new ListNode(
+            5, new ListNode(
+                4, new ListNode(
+                    3, new ListNode(
+                        2, new ListNode(
+                            1)))));
 
+        assertEquals(expectedReversedHead.val, reversedHead.val);
+        assertEquals(expectedReversedHead.next.val, reversedHead.next.val);
+        assertEquals(expectedReversedHead.next.next.val, reversedHead.next.next.val);
+        assertEquals(expectedReversedHead.next.next.next.val, reversedHead.next.next.next.val);
+        assertEquals(expectedReversedHead.next.next.next.next.val, reversedHead.next.next.next.next.val);
 
     }
 

@@ -1,52 +1,27 @@
-import java.util.HashMap;
-import java.util.Map;
-
 public class Solution {
 
-    public int longestPalindrome(String s) {
+    public ListNode reverseList(ListNode head) {
 
-        if (s.length() == 1) {
-            return 1;
+        if (head == null) {
+            return head;
         }
 
-        Map<Character, Integer> occurrences = new HashMap<>();
-
-        char[] charsS = s.toCharArray();
-        for (char charS : charsS) {
-            int occurrencesOfCharS = occurrences.getOrDefault(charS, 0);
-            occurrences.put(charS, occurrencesOfCharS + 1);
+        if (head.next == null) {
+            return head;
         }
 
-        int length = 0;
-        boolean flag = false;
-        for (Map.Entry<Character, Integer> entry : occurrences.entrySet()) {
-            int occurrencesOfCharS = entry.getValue();
-
-            if (isOdd(occurrencesOfCharS)) {
-                flag = true;
-            }
-
-            if (occurrencesOfCharS > 1) {
-
-                if (isOdd(occurrencesOfCharS)) {
-                    length += occurrencesOfCharS - 1;
-                }else {
-                    length += occurrencesOfCharS;
-                }
-
-            }
+        ListNode current = head.next;
+        head.next = null;
+        ListNode previous = head;
+        while (current != null) {
+            final ListNode nextCurrent = current.next;
+            current.next = previous;
+            previous = current;
+            current = nextCurrent;
         }
 
-        if (flag) {
-            length = length + 1;
-        }
+        return previous;
 
-        return length;
-
-    }
-
-    private boolean isOdd(int n) {
-        return (n & 1) != 0;
     }
 
 }
