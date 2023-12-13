@@ -1,25 +1,24 @@
 public class Solution {
 
-    public int fib(int input) {
+    public int climbStairs(int n) {
 
-        if (input == 0) {
-            return 0;
+        return getNoOfWays(n, 0, 0);
+
+    }
+
+    private int getNoOfWays(int n, int current, int noOfWays) {
+        if (current == n) {
+            return noOfWays + 1;
         }
 
-        if (input == 1) {
-            return 1;
+        if (current > n) {
+            return noOfWays;
         }
 
-        int[] dp = new int[input + 1];
-        dp[0] = 0;
-        dp[1] = 1;
+        noOfWays = getNoOfWays(n, current + 1, noOfWays);
+        noOfWays = getNoOfWays(n, current + 2, noOfWays);
 
-        for (int i = 2; i <= input; i++) {
-            dp[i] = dp[i-1] + dp[i-2];
-        }
-
-        return dp[input];
-
+        return noOfWays;
     }
 
 }

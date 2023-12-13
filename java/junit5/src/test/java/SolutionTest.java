@@ -7,25 +7,23 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class SolutionTest {
 
-    private static Stream<Arguments> getArgsForTestFib() {
+    private static Stream<Arguments> getArgsForTestClimbStairs() {
         return Stream.of(
-            Arguments.of(0, 0),
-            Arguments.of(1, 1),
-            Arguments.of(4, 3),
-            Arguments.of(8, 21),
-            Arguments.of(6, 8)
+            Arguments.of(2, 2),
+            Arguments.of(3, 3),
+            Arguments.of(4, 5)
         );
     }
 
     @ParameterizedTest
-    @MethodSource("getArgsForTestFib")
-    void testFib(int input, int expectedFib) {
+    @MethodSource("getArgsForTestClimbStairs")
+    void testClimbStairs(int n, int expectedNoOfWays) {
 
         final Solution solution = new Solution();
 
-        final int fib = solution.fib(input);
+        final int noOfWays = solution.climbStairs(n);
 
-        assertEquals(expectedFib, fib);
+        assertEquals(expectedNoOfWays, noOfWays);
 
 
     }
