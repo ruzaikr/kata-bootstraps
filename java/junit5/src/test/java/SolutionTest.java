@@ -7,25 +7,22 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class SolutionTest {
 
-    private static Stream<Arguments> getArgsForTestFib() {
+    private static Stream<Arguments> getArgsForTestLongestPalindrome() {
         return Stream.of(
-            Arguments.of(0, 0),
-            Arguments.of(1, 1),
-            Arguments.of(4, 3),
-            Arguments.of(8, 21),
-            Arguments.of(6, 8)
+            Arguments.of("abccccdd", 7),
+            Arguments.of("a", 1)
         );
     }
 
     @ParameterizedTest
-    @MethodSource("getArgsForTestFib")
-    void testFib(int input, int expectedFib) {
+    @MethodSource("getArgsForTestLongestPalindrome")
+    void testLongestPalindrome(String s, int expectedLength) {
 
         final Solution solution = new Solution();
 
-        final int fib = solution.fib(input);
+        final int length = solution.longestPalindrome(s);
 
-        assertEquals(expectedFib, fib);
+        assertEquals(expectedLength, length);
 
 
     }

@@ -1,25 +1,52 @@
+import java.util.HashMap;
+import java.util.Map;
+
 public class Solution {
 
-    public int fib(int input) {
+    public int longestPalindrome(String s) {
 
-        if (input == 0) {
-            return 0;
-        }
-
-        if (input == 1) {
+        if (s.length() == 1) {
             return 1;
         }
 
-        int[] dp = new int[input + 1];
-        dp[0] = 0;
-        dp[1] = 1;
+        Map<Character, Integer> occurrences = new HashMap<>();
 
-        for (int i = 2; i <= input; i++) {
-            dp[i] = dp[i-1] + dp[i-2];
+        char[] charsS = s.toCharArray();
+        for (char charS : charsS) {
+            int occurrencesOfCharS = occurrences.getOrDefault(charS, 0);
+            occurrences.put(charS, occurrencesOfCharS + 1);
         }
 
-        return dp[input];
+        int length = 0;
+        boolean flag = false;
+        for (Map.Entry<Character, Integer> entry : occurrences.entrySet()) {
+            int occurrencesOfCharS = entry.getValue();
 
+            if (isOdd(occurrencesOfCharS)) {
+                flag = true;
+            }
+
+            if (occurrencesOfCharS > 1) {
+
+                if (isOdd(occurrencesOfCharS)) {
+                    length += occurrencesOfCharS - 1;
+                }else {
+                    length += occurrencesOfCharS;
+                }
+
+            }
+        }
+
+        if (flag) {
+            length = length + 1;
+        }
+
+        return length;
+
+    }
+
+    private boolean isOdd(int n) {
+        return (n & 1) != 0;
     }
 
 }
