@@ -10,7 +10,15 @@ public class Solution {
             return 1;
         }
 
-        return fib(input -1) + fib(input -2);
+        int[] dp = new int[input + 1];
+        dp[0] = 0;
+        dp[1] = 1;
+
+        for (int i = 2; i <= input; i++) {
+            dp[i] = dp[i-1] + dp[i-2];
+        }
+
+        return dp[input];
 
     }
 
