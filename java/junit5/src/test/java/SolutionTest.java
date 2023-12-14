@@ -1,36 +1,30 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class SolutionTest {
 
-    @Test
-    void testReverseList() {
+    private static Stream<Arguments> getArgsForTestMaxSubArray() {
+        return Stream.of(
+            Arguments.of(new int[]{-2, 1, -3, 4, -1, 2, 1, -5, 4}, 6),
+            Arguments.of(new int[]{5, 4, -1, 7, 8}, 23),
+            Arguments.of(new int[]{1}, 1),
+            Arguments.of(new int[]{-2, 1}, 1),
+            Arguments.of(new int[]{-2, -1}, -1),
+            Arguments.of(new int[]{-1, -2}, -1),
+            Arguments.of(new int[]{-1, 0}, 0)
+        );
+    }
 
-        final ListNode head = new ListNode(
-            1, new ListNode(
-                2, new ListNode(
-                    3, new ListNode(
-                        4, new ListNode(
-                            5)))));
-
-        final Solution solution = new Solution();
-
-        final ListNode reversedHead = solution.reverseList(head);
-
-        final ListNode expectedReversedHead = new ListNode(
-            5, new ListNode(
-                4, new ListNode(
-                    3, new ListNode(
-                        2, new ListNode(
-                            1)))));
-
-        assertEquals(expectedReversedHead.val, reversedHead.val);
-        assertEquals(expectedReversedHead.next.val, reversedHead.next.val);
-        assertEquals(expectedReversedHead.next.next.val, reversedHead.next.next.val);
-        assertEquals(expectedReversedHead.next.next.next.val, reversedHead.next.next.next.val);
-        assertEquals(expectedReversedHead.next.next.next.next.val, reversedHead.next.next.next.next.val);
-
+    @ParameterizedTest
+    @MethodSource("getArgsForTestMaxSubArray")
+    void testMaxSubArray(int[] nums, int expectedLargestSum) {
+        Solution solution = new Solution();
+        int largestSum = solution.maxSubArray(nums);
+        assertEquals(expectedLargestSum, largestSum);
     }
 
 

@@ -1,27 +1,36 @@
 public class Solution {
 
-    public ListNode reverseList(ListNode head) {
+    public int maxSubArray(int[] nums) {
 
-        if (head == null) {
-            return head;
+        if (nums.length == 1) {
+            return nums[0];
         }
 
-        if (head.next == null) {
-            return head;
+        int currentSum = nums[0];
+        int largestSum = currentSum;
+
+        int ptr = 1;
+        while (ptr < nums.length) {
+
+            if (nums[ptr] < 0 && Math.abs(nums[ptr]) > Math.abs(currentSum) && ptr < (nums.length -1)) {
+                ptr += 1;
+                currentSum = nums[ptr];
+            } else if (nums[ptr] <= 0 && currentSum < 0 && nums[ptr] > currentSum) {
+                currentSum = nums[ptr];
+            } else if (nums[ptr] > 0 && currentSum < 0) {
+                currentSum = nums[ptr];
+            } else {
+                currentSum += nums[ptr];
+            }
+
+            if (currentSum > largestSum) {
+                largestSum = currentSum;
+            }
+
+            ptr += 1;
         }
 
-        ListNode current = head.next;
-        head.next = null;
-        ListNode previous = head;
-        while (current != null) {
-            final ListNode nextCurrent = current.next;
-            current.next = previous;
-            previous = current;
-            current = nextCurrent;
-        }
-
-        return previous;
-
+        return largestSum;
     }
 
 }
