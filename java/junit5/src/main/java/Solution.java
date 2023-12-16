@@ -1,36 +1,46 @@
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+
 public class Solution {
 
-    public int maxSubArray(int[] nums) {
+    public List<List<Integer>> levelOrder(TreeNode root) {
 
-        if (nums.length == 1) {
-            return nums[0];
+        if (root == null) {
+            return List.of();
         }
 
-        int currentSum = nums[0];
-        int largestSum = currentSum;
+        Queue<TreeNode> q = new LinkedList<>();
+        q.add(root);
 
-        int ptr = 1;
-        while (ptr < nums.length) {
+        List<List<Integer>> result = new ArrayList<>();
 
-            if (nums[ptr] < 0 && Math.abs(nums[ptr]) > Math.abs(currentSum) && ptr < (nums.length -1)) {
-                ptr += 1;
-                currentSum = nums[ptr];
-            } else if (nums[ptr] <= 0 && currentSum < 0 && nums[ptr] > currentSum) {
-                currentSum = nums[ptr];
-            } else if (nums[ptr] > 0 && currentSum < 0) {
-                currentSum = nums[ptr];
-            } else {
-                currentSum += nums[ptr];
+        while (!q.isEmpty()) {
+
+            int qSize = q.size();
+            List<Integer> level = new ArrayList<>();
+            for (int i = 0; i < qSize; i++) {
+                TreeNode current = q.remove();
+                level.add(current.val);
+
+                if (current.left != null) {
+                    q.add(current.left);
+                }
+                if (current.right != null) {
+                    q.add(current.right);
+                }
             }
 
-            if (currentSum > largestSum) {
-                largestSum = currentSum;
+            if (!level.isEmpty()) {
+                result.add(level);
             }
 
-            ptr += 1;
+
         }
 
-        return largestSum;
+        return result;
+
     }
 
 }
