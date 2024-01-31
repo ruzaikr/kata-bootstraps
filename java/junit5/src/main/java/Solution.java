@@ -3,7 +3,7 @@ import java.util.Stack;
 
 public class Solution {
 
-    private Map<Character, Character> closeToOpen = Map.of(
+    private final Map<Character, Character> closeToOpen = Map.of(
         ')', '(',
         '}', '{',
         ']', '['
