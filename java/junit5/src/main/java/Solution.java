@@ -1,26 +1,46 @@
-import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 
 public class Solution {
 
-    public int[] TwoSum(int[] nums, int target) {
+    private Map<Character, Character> closeToOpen = Map.of(
+        ')', '(',
+        '}', '{',
+        ']', '['
+    );
 
-        final Map<Integer, Integer> numsToIndices = new HashMap<>();
+    public boolean IsValid(String s) {
 
-        for (int i = 0; i < nums.length; i++) {
-
-            final int diff = target - nums[i];
-
-            if (numsToIndices.containsKey(diff)) {
-                return new int[]{numsToIndices.get(diff), i};
-            }
-
-            numsToIndices.put(nums[i], i);
-
+        if (s.length() < 2) {
+            return false;
         }
 
-        return new int[]{};
+        final char[] charArrayOfS = s.toCharArray();
 
+        final Stack<Character> stackOfOpenParantheses = new Stack<>();
 
+        for (char charArrayOf : charArrayOfS) {
+            if (isOpenParantheses(charArrayOf)) {
+                stackOfOpenParantheses.push(charArrayOf);
+                continue;
+            }
+
+            if (stackOfOpenParantheses.isEmpty()) {
+                return false;
+            }
+
+            final char topOfStack = stackOfOpenParantheses.pop();
+
+            if (topOfStack != closeToOpen.getOrDefault(charArrayOf, 'x')) {
+                return false;
+            }
+        }
+
+        return stackOfOpenParantheses.isEmpty();
+
+    }
+
+    private static boolean isOpenParantheses(char parantheses) {
+        return parantheses == '(' || parantheses == '{' || parantheses == '[';
     }
 }
