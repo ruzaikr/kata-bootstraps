@@ -12,16 +12,16 @@ class SolutionTest {
     private static Stream<Arguments> getArgsForTestIsAnagram() {
         return Stream.of(
                 Arguments.of(
-                        "anagram", "nagaram", true
+                        new int[]{-1,0,3,5,9,12}, 9, 4
                 )
         );
     }
 
     @ParameterizedTest
     @MethodSource("getArgsForTestIsAnagram")
-    void testIsAnagram(final String s, final String t, final boolean expectedResult) {
+    void testIsAnagram(final int[] nums, final int target, final int expectedResult) {
         final Solution solution = new Solution();
-        final boolean result = solution.isAnagram(s, t);
+        final int result = solution.search(nums, target);
 
         assertEquals(expectedResult, result);
     }

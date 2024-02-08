@@ -1,37 +1,28 @@
-import java.util.HashMap;
-import java.util.Map;
-
 public class Solution {
 
-    public boolean isAnagram(String s, String t) {
+    public int search(int[] nums, int target) {
 
-        if (s.length() != t.length()) {
-            return false;
-        }
+        int leftPtr = 0;
+        int rightPtr = nums.length - 1;
+        int mid;
 
-        final Map<Character, Integer> charOccurences = new HashMap<>();
+        do {
 
-        final char[] charArrOfS = s.toCharArray();
+            mid = (leftPtr + rightPtr) / 2;
 
-        for (char charOfS : charArrOfS) {
-            charOccurences.put(charOfS, charOccurences.getOrDefault(charOfS, 0) + 1);
-        }
-
-        final char[] charArrOfT = t.toCharArray();
-
-        for (char charOfT : charArrOfT) {
-            final int occurencesOfCharOfT = charOccurences.getOrDefault(charOfT, 0);
-            if (occurencesOfCharOfT == 0) {
-                return false;
+            if (nums[mid] == target) {
+                return mid;
             }
-            if (occurencesOfCharOfT == 1) {
-                charOccurences.remove(charOfT);
-                continue;
-            }
-            charOccurences.put(charOfT, occurencesOfCharOfT - 1);
-        }
 
-        return charOccurences.isEmpty();
+            if (nums[mid] < target) {
+                leftPtr = mid + 1;
+            } else {
+                rightPtr = mid - 1;
+            }
+
+        } while (leftPtr <= rightPtr);
+
+        return -1;
     }
 
 
