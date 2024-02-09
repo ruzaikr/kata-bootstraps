@@ -1,33 +1,41 @@
 public class Solution {
 
-    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+    public boolean isBalanced(TreeNode root) {
 
-        if (root == null) {
-            return null;
+        return nameItLater(root) != -1;
+
+    }
+
+    private static int nameItLater(TreeNode current) {
+
+        if (current == null) {
+            return 0;
         }
 
-        TreeNode current = root;
-
-        while (true) {
-
-            if (p.val == current.val || q.val == current.val) {
-                return current;
-            }
-
-            if (p.val < current.val && q.val > current.val) {
-                return current;
-            }
-
-            if (p.val < current.val) {
-                current = current.left;
-                continue;
-            }
-
-            if (q.val > current.val) {
-                current = current.right;
-            }
-
+        if (current.left == null && current.right == null) {
+            return 1;
         }
+
+        int heightLeft = 0;
+        int heightRight = 0;
+        if (current.left != null) {
+            heightLeft = nameItLater(current.left);
+            if (heightLeft == -1) {
+                return -1;
+            }
+        }
+        if (current.right != null) {
+            heightRight = nameItLater(current.right);
+            if (heightRight == -1) {
+                return -1;
+            }
+        }
+
+        if (Math.abs(heightLeft - heightRight) > 1) {
+            return -1;
+        }
+
+        return 1 + Math.max(heightLeft, heightRight);
 
     }
 
