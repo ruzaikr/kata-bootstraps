@@ -1,33 +1,34 @@
 public class Solution {
 
-    public int[][] floodFill(int[][] image, int sr, int sc, int color) {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
 
-        if (image[sr][sc] == color) {
-            return image;
+        if (root == null) {
+            return null;
         }
 
-        dfsFill(image, sr, sc, image[sr][sc], color);
+        TreeNode current = root;
 
-        return image;
-    }
+        while (true) {
 
-    private static void dfsFill(int[][]image, int i, int j, int color, int newColor) {
+            if (p.val == current.val || q.val == current.val) {
+                return current;
+            }
 
-        // return if sr or sc is out of bounds
-        if (i < 0 || i >= image.length || j < 0 || j >=image[0].length) {
-            return;
+            if (p.val < current.val && q.val > current.val) {
+                return current;
+            }
+
+            if (p.val < current.val) {
+                current = current.left;
+                continue;
+            }
+
+            if (q.val > current.val) {
+                current = current.right;
+            }
+
         }
 
-        if (image[i][j] != color) {
-            return;
-        }
-
-        image[i][j] = newColor;
-
-        dfsFill(image, i + 1, j, color, newColor);
-        dfsFill(image, i - 1, j, color, newColor);
-        dfsFill(image, i, j + 1, color, newColor);
-        dfsFill(image, i, j - 1, color, newColor);
     }
 
 
