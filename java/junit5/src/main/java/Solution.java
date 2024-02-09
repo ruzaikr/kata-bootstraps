@@ -1,28 +1,33 @@
 public class Solution {
 
-    public int search(int[] nums, int target) {
+    public int[][] floodFill(int[][] image, int sr, int sc, int color) {
 
-        int leftPtr = 0;
-        int rightPtr = nums.length - 1;
-        int mid;
+        if (image[sr][sc] == color) {
+            return image;
+        }
 
-        do {
+        dfsFill(image, sr, sc, image[sr][sc], color);
 
-            mid = (leftPtr + rightPtr) / 2;
+        return image;
+    }
 
-            if (nums[mid] == target) {
-                return mid;
-            }
+    private static void dfsFill(int[][]image, int i, int j, int color, int newColor) {
 
-            if (nums[mid] < target) {
-                leftPtr = mid + 1;
-            } else {
-                rightPtr = mid - 1;
-            }
+        // return if sr or sc is out of bounds
+        if (i < 0 || i >= image.length || j < 0 || j >=image[0].length) {
+            return;
+        }
 
-        } while (leftPtr <= rightPtr);
+        if (image[i][j] != color) {
+            return;
+        }
 
-        return -1;
+        image[i][j] = newColor;
+
+        dfsFill(image, i + 1, j, color, newColor);
+        dfsFill(image, i - 1, j, color, newColor);
+        dfsFill(image, i, j + 1, color, newColor);
+        dfsFill(image, i, j - 1, color, newColor);
     }
 
 
