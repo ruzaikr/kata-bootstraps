@@ -1,28 +1,23 @@
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 
 class SolutionTest {
 
-
     @Test
-    void testIsBalanced() {
-        final TreeNode root = new TreeNode(
-                3,
-                new TreeNode(9),
-                new TreeNode(
-                        20,
-                        new TreeNode(15),
-                        new TreeNode(7)
-                )
-        );
+    void testQueueMadeUsingStacks() {
+         MyQueue queue = new MyQueue();
+         queue.push(1);
+         queue.push(2);
+         assertEquals(1, queue.peek());
+         assertEquals(1, queue.pop());
+         assertFalse(queue.empty());
 
-        final Solution solution = new Solution();
-
-        final boolean result = solution.isBalanced(root);
-
-        assertTrue(result);
     }
 
 }

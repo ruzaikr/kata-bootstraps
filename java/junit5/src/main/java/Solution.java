@@ -1,41 +1,39 @@
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 public class Solution {
 
-    public boolean isBalanced(TreeNode root) {
+    public int longestPalindrome(String s) {
 
-        return nameItLater(root) != -1;
+        final Map<Character, Integer> letterCounts = new HashMap<>();
 
-    }
+        final char[] charArrOfS = s.toCharArray();
 
-    private static int nameItLater(TreeNode current) {
-
-        if (current == null) {
-            return 0;
+        for (char charOfS : charArrOfS) {
+            final int charOfSCount = letterCounts.getOrDefault(charOfS, 0);
+            letterCounts.put(charOfS, charOfSCount + 1);
         }
 
-        if (current.left == null && current.right == null) {
-            return 1;
-        }
-
-        int heightLeft = 0;
-        int heightRight = 0;
-        if (current.left != null) {
-            heightLeft = nameItLater(current.left);
-            if (heightLeft == -1) {
-                return -1;
+        int length = 0;
+        for (int letterCount : letterCounts.values()) {
+            if (letterCount < 2) {
+                continue;
             }
-        }
-        if (current.right != null) {
-            heightRight = nameItLater(current.right);
-            if (heightRight == -1) {
-                return -1;
+            if (letterCount % 2 == 0) { // if letterCount is an even number
+                length += letterCount;
+            } else {
+                length += letterCount - 1;
             }
         }
 
-        if (Math.abs(heightLeft - heightRight) > 1) {
-            return -1;
+        if (length < s.length()) {
+            length += 1;
         }
 
-        return 1 + Math.max(heightLeft, heightRight);
+        return length;
+
 
     }
 
