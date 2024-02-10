@@ -8,25 +8,23 @@ public class Solution {
 
         final List<int[]> output = new LinkedList<>();
 
-        for (int i = 0; i < intervals.length; i++) {
-
-            if (newInterval[1] < intervals[i][0]) {
-                output.add(newInterval);
-                output.addAll(Arrays.stream(Arrays.copyOfRange(intervals, i, intervals.length)).toList());
-                return output.toArray(new int[output.size()][2]);
-                // @TODO: Add the rest of the intervals to `output` and return `output`
-            }
-
-            if ( !( (newInterval[1] < intervals[i][0]) || (intervals[i][1] < newInterval[0]) ) ) {
-                newInterval[0] = Math.min(newInterval[0], intervals[i][0]);
-                newInterval[1] = Math.max(newInterval[1], intervals[i][1]);
-            } else {
-                output.add(intervals[i]);
-            }
-
+        int i = 0;
+        while (intervals[i][1] < newInterval[0]) {
+            output.add(intervals[i]);
+            i++;
         }
 
+        while ( !( (newInterval[1] < intervals[i][0]) || (intervals[i][1] < newInterval[0]) ) ) {
+            newInterval[0] = Math.min(newInterval[0], intervals[i][0]);
+            newInterval[1] = Math.max(newInterval[1], intervals[i][1]);
+            i++;
+        }
         output.add(newInterval);
+
+        while (i < intervals.length) {
+            output.add(intervals[i]);
+            i++;
+        }
 
         return output.toArray(new int[output.size()][2]);
 
