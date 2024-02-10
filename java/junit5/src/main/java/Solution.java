@@ -1,39 +1,34 @@
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Solution {
 
-    public int longestPalindrome(String s) {
+    public int[][] insert(int[][] intervals, int[] newInterval) {
 
-        final Map<Character, Integer> letterCounts = new HashMap<>();
+        final List<int[]> output = new LinkedList<>();
 
-        final char[] charArrOfS = s.toCharArray();
+        for (int i = 0; i < intervals.length; i++) {
 
-        for (char charOfS : charArrOfS) {
-            final int charOfSCount = letterCounts.getOrDefault(charOfS, 0);
-            letterCounts.put(charOfS, charOfSCount + 1);
-        }
-
-        int length = 0;
-        for (int letterCount : letterCounts.values()) {
-            if (letterCount < 2) {
-                continue;
+            if (newInterval[1] < intervals[i][0]) {
+                output.add(newInterval);
+                output.addAll(Arrays.stream(Arrays.copyOfRange(intervals, i, intervals.length)).toList());
+                return output.toArray(new int[output.size()][2]);
+                // @TODO: Add the rest of the intervals to `output` and return `output`
             }
-            if (letterCount % 2 == 0) { // if letterCount is an even number
-                length += letterCount;
+
+            if ( !( (newInterval[1] < intervals[i][0]) || (intervals[i][1] < newInterval[0]) ) ) {
+                newInterval[0] = Math.min(newInterval[0], intervals[i][0]);
+                newInterval[1] = Math.max(newInterval[1], intervals[i][1]);
             } else {
-                length += letterCount - 1;
+                output.add(intervals[i]);
             }
+
         }
 
-        if (length < s.length()) {
-            length += 1;
-        }
+        output.add(newInterval);
 
-        return length;
-
+        return output.toArray(new int[output.size()][2]);
 
     }
 
