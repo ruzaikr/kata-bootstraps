@@ -1,32 +1,43 @@
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 public class Solution {
 
-    public int[][] insert(int[][] intervals, int[] newInterval) {
+    public List<List<Integer>> levelOrder(TreeNode root) {
 
-        final List<int[]> output = new LinkedList<>();
-
-        int i = 0;
-        while (intervals[i][1] < newInterval[0]) {
-            output.add(intervals[i]);
-            i++;
+        if (root == null) {
+            return List.of();
         }
 
-        while ( !( (newInterval[1] < intervals[i][0]) || (intervals[i][1] < newInterval[0]) ) ) {
-            newInterval[0] = Math.min(newInterval[0], intervals[i][0]);
-            newInterval[1] = Math.max(newInterval[1], intervals[i][1]);
-            i++;
-        }
-        output.add(newInterval);
+        final Queue<TreeNode> queue = new LinkedList<>();
 
-        while (i < intervals.length) {
-            output.add(intervals[i]);
-            i++;
+        queue.add(root);
+
+        final List<List<Integer>> output = new LinkedList<>();
+
+        while (!queue.isEmpty()) {
+
+            final List<Integer> level = new LinkedList<>();
+            final int queueSize = queue.size();
+            for (int i = 0; i < queueSize; i++) {
+                final TreeNode current = queue.remove();
+                level.add(current.val);
+                if (current.left != null) {
+                    queue.add(current.left);
+                }
+                if (current.right != null) {
+                    queue.add(current.right);
+                }
+            }
+
+            if (!level.isEmpty()) {
+                output.add(level);
+            }
         }
 
-        return output.toArray(new int[output.size()][2]);
+        return output;
+
 
     }
 
