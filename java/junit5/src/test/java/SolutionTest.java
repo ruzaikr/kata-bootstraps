@@ -4,26 +4,29 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SolutionTest {
 
     private static Stream<Arguments> getArgsForTestKClosest() {
         return Stream.of(
-                Arguments.of(new int[][]{{1,3},{-2,2}}, 1, new int[][]{{-2,2}}),
-                Arguments.of(new int[][]{{3,3},{5,-1},{-2,4}}, 2, new int[][]{{3,3},{-2,4}})
+                Arguments.of("abcabcbb", 3),
+                Arguments.of("bbbbb", 1),
+                Arguments.of("pwwkew", 3),
+                Arguments.of("dvdf", 3),
+                Arguments.of("abba", 2)
         );
     }
 
 
     @ParameterizedTest
     @MethodSource("getArgsForTestKClosest")
-    void testKClosest(final int[][] points, final int k, final int[][] ExpectedKClosestPoints) {
+    void testKClosest(final String s, final int expectedOutput) {
         final Solution solution = new Solution();
 
-        final int[][] kClosestPoints = solution.kClosest(points, k);
+        final int output = solution.lengthOfLongestSubstring(s);
 
-        assertArrayEquals(ExpectedKClosestPoints, kClosestPoints);
+        assertEquals(expectedOutput, output);
     }
 
 }

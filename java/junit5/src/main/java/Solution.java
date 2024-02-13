@@ -1,30 +1,40 @@
-import java.util.Comparator;
-import java.util.PriorityQueue;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class Solution {
 
-    public int[][] kClosest(int[][] points, int k) {
+    public int lengthOfLongestSubstring(String s) {
 
-        final PriorityQueue<int[]> minHeap = new PriorityQueue<>(points.length, Comparator.comparingInt(ints -> ints[0]));
-
-        for (int[] point : points) {
-            final int distance = getDistance(point[0], point[1]);
-            minHeap.add(new int[]{distance, point[0], point[1]});
+        if (s.isEmpty()) {
+            return 0;
         }
 
-        final int[][] kClosestPoints = new int[k][2];
+        int longestLength = 0;
 
-        for (int i = 0; i < k; i++) {
-            final int[] point = minHeap.remove();
-            kClosestPoints[i][0] = point[1];
-            kClosestPoints[i][1] = point[2];
+        final Set<Character> subString = new HashSet<>();
+
+        final char[] charsOfS = s.toCharArray();
+
+        int leftPtr = 0;
+
+        for (int rightPtr = 0; rightPtr < s.length(); rightPtr++) {
+
+            while (subString.contains(charsOfS[rightPtr])) {
+                subString.remove(charsOfS[leftPtr]);
+                leftPtr++;
+            }
+
+            subString.add(charsOfS[rightPtr]);
+
+            if (subString.size() > longestLength) {
+                longestLength = subString.size();
+            }
         }
 
-        return kClosestPoints;
-    }
+        return longestLength;
 
-    private int getDistance(final int x1, final int y1) {
-        return (int) (Math.pow(Math.abs(x1), 2) + Math.pow(Math.abs(y1), 2));
     }
 
 }
