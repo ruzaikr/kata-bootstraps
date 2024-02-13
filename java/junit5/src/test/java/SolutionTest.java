@@ -1,37 +1,37 @@
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.List;
+import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+
+public class SolutionTest {
+
+    private static Stream<Arguments> getArgsForTestUpdateMatrix() {
+        return Stream.of(
+                Arguments.of(new int[][]{{0,0,0},{0,1,0},{0,0,0}}, new int[][]{{0,0,0},{0,1,0},{0,0,0}}),
+                Arguments.of(new int[][]{{0,0,0},{0,1,0},{1,1,1}}, new int[][]{{0,0,0},{0,1,0},{1,2,1}})
+        );
+    }
 
 
-class SolutionTest {
-
-
-    @Test
-    void testLevelOrder() {
+    @ParameterizedTest
+    @MethodSource("getArgsForTestUpdateMatrix")
+    void testUpdateMatrix(final int[][] mat, final int[][] expectedUpdatedMat) {
         final Solution solution = new Solution();
 
-        final TreeNode root = new TreeNode(
-                3,
-                new TreeNode(9),
-                new TreeNode(
-                        20,
-                        new TreeNode(15),
-                        new TreeNode(7)
-                )
-        );
+        final int[][] updatedMat = solution.updateMatrix(mat);
 
-        final List<List<Integer>> output = solution.levelOrder(root);
+        assertArrayEquals(expectedUpdatedMat, updatedMat);
+    }
 
-        final List<List<Integer>> expectedOutput = List.of(
-                List.of(3),
-                List.of(9, 20),
-                List.of(15, 7)
-        );
+    @Test
+    void testPlayground() {
+        boolean[][] myMatrix = new boolean[3][3];
 
-        assertEquals(expectedOutput, output);
-
+        System.out.println(myMatrix[1][1]);
     }
 
 }
