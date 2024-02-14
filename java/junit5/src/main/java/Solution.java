@@ -1,26 +1,44 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Solution {
 
-    private final Map<Node, Node> origToClone = new HashMap<>();
+    private final Set<String> operands = Set.of("+","-","/","*");
 
-    public Node cloneGraph(Node node) {
+    public int evalRPN(String[] tokens) {
 
-        if (node == null || node.neighbors == null) {
-            return node;
+        if (tokens.length == 1) {
+            return Integer.parseInt(tokens[0]);
         }
 
-        if (origToClone.containsKey(node)) {
-            return origToClone.get(node);
+        final Stack<String> stack = new Stack<>();
+
+        for (final String token : tokens) {
+            if (operands.contains(token)) {
+                final String operand2 = stack.pop();
+                final String operand1 = stack.pop();
+                stack.push(getResult(operand1, operand2, token));
+            } else {
+                stack.push(token);
+            }
         }
 
-        final Node clone = new Node(node.val);
-        origToClone.put(node, clone);
-        for (final Node neighbor : node.neighbors) {
-            clone.neighbors.add(cloneGraph(neighbor));
-        }
-        return clone;
+        return Integer.parseInt(stack.pop());
+
+    }
+
+    private String getResult(final String operand1, final String operand2, final String operator) {
+
+        final int operand1Int = Integer.parseInt(operand1);
+        final int operand2Int = Integer.parseInt(operand2);
+
+        int result = switch (operator) {
+            case "+" -> operand1Int + operand2Int;
+            case "-" -> operand1Int - operand2Int;
+            case "*" -> operand1Int * operand2Int;
+            default -> operand1Int / operand2Int;
+        };
+
+        return String.valueOf(result);
 
     }
 

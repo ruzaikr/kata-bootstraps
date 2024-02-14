@@ -12,29 +12,23 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SolutionTest {
 
-    @Test
-    void testCloneGraph() {
+    private static Stream<Arguments> getArgsForEvalRPN() {
+        return Stream.of(
+                Arguments.of(new String[]{"9"}, 9),
+                Arguments.of(new String[]{"1,2"}, 9)
+//                Arguments.of(new String[]{"2","1","+","3","*"}, 9),
+//                Arguments.of(new String[]{"4","13","5","/","+"}, 6)
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("getArgsForEvalRPN")
+    void testEvalRPN(final String[] tokens, final int expectedOutput) {
         final Solution solution = new Solution();
 
-        final Node node1 = new Node(1);
-        final Node node2 = new Node(2);
-        final Node node3 = new Node(3);
-        final Node node4 = new Node(4);
+        final int output = solution.evalRPN(tokens);
 
-        node1.neighbors.add(node2);
-        node1.neighbors.add(node4);
-
-        node2.neighbors.add(node1);
-        node2.neighbors.add(node3);
-
-        node3.neighbors.add(node2);
-        node3.neighbors.add(node4);
-
-        node4.neighbors.add(node1);
-        node4.neighbors.add(node3);
-
-        final Node outputNode = solution.cloneGraph(node1);
-        System.out.println(outputNode);
+        assertEquals(expectedOutput, output);
     }
 
 }
