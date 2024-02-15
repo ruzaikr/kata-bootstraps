@@ -4,28 +4,26 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 public class SolutionTest {
 
     private static Stream<Arguments> getArgsForTestCoinChange() {
         return Stream.of(
-                Arguments.of(new int[]{2}, 4, 2),
-                Arguments.of(new int[]{2}, 3, -1),
-                Arguments.of(new int[]{1,2,5}, 11, 3),
-                Arguments.of(new int[]{1,2,5}, 0, 0)
+                Arguments.of(new int[]{1,2,3,4}, new int[]{24,12,8,6}),
+                Arguments.of(new int[]{-1,1,0,-3,3}, new int[]{0,0,9,0,0})
         );
     }
 
     @ParameterizedTest
     @MethodSource("getArgsForTestCoinChange")
-    void testCoinChange(final int[] coins, final int amount, final int expectedOutput) {
+    void testCoinChange(final int[] nums, final int[] expectedOutput) {
 
         final Solution solution = new Solution();
 
-        final int output = solution.coinChange(coins, amount);
+        final int[] output = solution.productExceptSelf(nums);
 
-        assertEquals(expectedOutput, output);
+        assertArrayEquals(expectedOutput, output);
 
     }
 
