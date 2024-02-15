@@ -1,6 +1,5 @@
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 public class TrieNode {
 
@@ -12,11 +11,6 @@ public class TrieNode {
         children = new HashMap<>();
     }
 
-    TrieNode(final boolean isAWord) {
-        this.isAWord = isAWord;
-        children = new HashMap<>();
-    }
-
     public void setIsAWord(boolean isAWord) {
         this.isAWord = isAWord;
     }
@@ -25,19 +19,15 @@ public class TrieNode {
         return isAWord;
     }
 
-    public Optional<TrieNode> getChild(final char character) {
-        return Optional.ofNullable(children.getOrDefault(character, null));
+    public TrieNode getChild(final char character) {
+        return children.getOrDefault(character, null);
     }
 
-    public TrieNode addChildIfNotPresentAndGetTrieNodeOfChild(final char character, final boolean isAWord) {
+    public TrieNode addChildIfNotPresentAndGetTrieNodeOfChild(final char character) {
         if (children.containsKey(character)) {
-            final TrieNode child = children.get(character);
-            if (isAWord) {
-                child.setIsAWord(true);
-            }
-            return child;
+            return children.get(character);
         }
-        final TrieNode newChild = new TrieNode(isAWord);
+        final TrieNode newChild = new TrieNode();
         children.put(character, newChild);
         return newChild;
     }
