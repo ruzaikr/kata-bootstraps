@@ -2,44 +2,52 @@ import java.util.*;
 
 public class Solution {
 
-    private final Set<String> operands = Set.of("+","-","/","*");
+    private final Map<Integer, Set<Integer>> courseNumToPrereqs = new HashMap<>();
 
-    public int evalRPN(String[] tokens) {
+    private final Set<Integer> processedCourseNums = new HashSet<>();
 
-        if (tokens.length == 1) {
-            return Integer.parseInt(tokens[0]);
+
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+
+
+        for (final int[] courseNumPrereqPair : prerequisites) {
+            final int courseNum = courseNumPrereqPair[0];
+            final int prereq = courseNumPrereqPair[1];
+            final Set<Integer> allPrereqs = courseNumToPrereqs.getOrDefault(courseNum, new HashSet<>());
+            allPrereqs.add(prereq);
+            courseNumToPrereqs.put(courseNum, allPrereqs);
         }
 
-        final Stack<String> stack = new Stack<>();
-
-        for (final String token : tokens) {
-            if (operands.contains(token)) {
-                final String operand2 = stack.pop();
-                final String operand1 = stack.pop();
-                stack.push(getResult(operand1, operand2, token));
-            } else {
-                stack.push(token);
+        for (final int courseNum : courseNumToPrereqs.keySet()) {
+            if (!dfs(courseNum)) {
+                return false;
             }
         }
 
-        return Integer.parseInt(stack.pop());
 
+        return true;
     }
 
-    private String getResult(final String operand1, final String operand2, final String operator) {
+    private boolean dfs(final int courseNum) {
+        if (!courseNumToPrereqs.containsKey(courseNum)) {
+            return true;
+        }
 
-        final int operand1Int = Integer.parseInt(operand1);
-        final int operand2Int = Integer.parseInt(operand2);
+        final Set<Integer> prereqs = courseNumToPrereqs.get(courseNum);
 
-        int result = switch (operator) {
-            case "+" -> operand1Int + operand2Int;
-            case "-" -> operand1Int - operand2Int;
-            case "*" -> operand1Int * operand2Int;
-            default -> operand1Int / operand2Int;
-        };
+        if (prereqs.isEmpty()) {
+            return true;
+        }
 
-        return String.valueOf(result);
+        if (processedCourseNums.contains(courseNum)) {
+            return false;
+        }
+        processedCourseNums.add(courseNum);
 
+        prereqs.removeIf(this::dfs);
+
+        return prereqs.isEmpty();
     }
+
 
 }
