@@ -10,6 +10,7 @@ public class SolutionTest {
 
     private static Stream<Arguments> getArgsForTestCoinChange() {
         return Stream.of(
+                Arguments.of(new int[]{2,3,5,0}, new int[]{0,0,0,30}),
                 Arguments.of(new int[]{1,2,3,4}, new int[]{24,12,8,6}),
                 Arguments.of(new int[]{-1,1,0,-3,3}, new int[]{0,0,9,0,0})
         );
