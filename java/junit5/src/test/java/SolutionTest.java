@@ -1,38 +1,79 @@
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
-
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-
 class SolutionTest {
 
-    private static Stream<Arguments> getArgsForTestMajorityElement() {
-        return Stream.of(
-                Arguments.of("11", "1", "100")
-        );
+    @Test
+    void testNumIslands() {
+
+        final char[][] grid = new char[][]{
+                {'1','1','1','1','0'},
+                {'1','1','0','1','0'},
+                {'1','1','0','0','0'},
+                {'0','0','0','0','0'}
+        };
+
+        final Solution solution = new Solution();
+
+        final int numberOfIslands = solution.numIslands(grid);
+
+        assertEquals(1, numberOfIslands);
+
     }
 
-    @ParameterizedTest
-    @MethodSource("getArgsForTestMajorityElement")
-    void testMajorityElement(final String a, final String b, final String expectedSum) {
+    @Test
+    void testNumIslands2() {
+
+        final char[][] grid = new char[][]{
+             {'1','1','1','1','1','0','1','1','1','1','1','1','1','1','1','0','1','0','1','1'}
+            ,{'0','1','1','1','1','1','1','1','1','1','1','1','1','0','1','1','1','1','1','0'}
+            ,{'1','0','1','1','1','0','0','1','1','0','1','1','1','1','1','1','1','1','1','1'}
+            ,{'1','1','1','1','0','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1'}
+            ,{'1','0','0','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1'}
+            ,{'1','0','1','1','1','1','1','1','0','1','1','1','0','1','1','1','0','1','1','1'}
+            ,{'0','1','1','1','1','1','1','1','1','1','1','1','0','1','1','0','1','1','1','1'}
+            ,{'1','1','1','1','1','1','1','1','1','1','1','1','0','1','1','1','1','0','1','1'}
+            ,{'1','1','1','1','1','1','1','1','1','1','0','1','1','1','1','1','1','1','1','1'}
+            ,{'1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1'}
+            ,{'0','1','1','1','1','1','1','1','0','1','1','1','1','1','1','1','1','1','1','1'}
+            ,{'1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1'}
+            ,{'1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1'}
+            ,{'1','1','1','1','1','0','1','1','1','1','1','1','1','0','1','1','1','1','1','1'}
+            ,{'1','0','1','1','1','1','1','0','1','1','1','0','1','1','1','1','0','1','1','1'}
+            ,{'1','1','1','1','1','1','1','1','1','1','1','1','0','1','1','1','1','1','1','0'}
+            ,{'1','1','1','1','1','1','1','1','1','1','1','1','1','0','1','1','1','1','0','0'}
+            ,{'1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1'}
+            ,{'1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1'}
+            ,{'1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1'}
+        };
+
         final Solution solution = new Solution();
-        final String sum = solution.addBinary(a, b);
-        assertEquals(expectedSum, sum);
+
+        final int numberOfIslands = solution.numIslands(grid);
+
+        assertEquals(1, numberOfIslands);
+
     }
 
     @Test
     void testScratchpad() {
-        final char myCharOne = '1';
-        final char myCharZero = '0';
+        final char[][] grid = new char[][]{
+                {'1','1','1','1','0'},
+                {'1','1','0','1','0'},
+                {'1','1','0','0','0'},
+                {'0','0','0','0','0'}
+        };
 
-        final int myIntOne = myCharOne - '0';
-        final int myIntZero = myCharZero;
+        if (grid[0][1] == '1') {
+            System.out.println("Works");
+        } else {
+            System.out.println("Doesn't work");
+        }
 
-        System.out.println(myIntOne);
-        System.out.println(myIntZero);
+        if (grid[3][1] != '1') {
+            System.out.println("Works again");
+        }
     }
+
 }

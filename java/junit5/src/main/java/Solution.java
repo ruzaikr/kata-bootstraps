@@ -1,51 +1,63 @@
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Set;
+
 public class Solution {
 
-    public String addBinary(String a, String b) {
+    public int numIslands(char[][] grid) {
 
-        final char[] charsOfA = a.toCharArray();
-        final char[] charsOfB = b.toCharArray();
+        int numOfIslands = 0;
 
-        StringBuilder result = new StringBuilder();
+        final Set<String> coordsOfVisited1s = new HashSet<>();
 
-        int carry = 0;
+        for (int row = 0; row < grid.length; row++) {
+            for (int col = 0; col < grid[0].length; col++) {
 
-        for (int i = 0; i < Math.max(a.length(), b.length()); i++) {
-            int iOfA = a.length() - 1 - i;
-            int iOfB = b.length() - 1 - i;
+                if (grid[row][col] != '1' || coordsOfVisited1s.contains(getCoords(row, col))) {
+                    continue;
+                }
 
-            int addendB = 0;
-            if (iOfB >= 0) {
-                addendB = charsOfB[iOfB] - '0';
-            }
+                coordsOfVisited1s.add(row + "," + col);
 
-            int addendA = 0;
-            if (iOfA >= 0) {
-                addendA = charsOfA[iOfA] - '0';
-            }
+                final Queue<int[]> queue = new LinkedList<>();
+                queue.add(new int[]{row, col});
+                while (!queue.isEmpty()) {
+                    final int[] currentCoords = queue.remove();
 
-            int currentSum = addendA + addendB + carry;
+                    final int[][] deltas = new int[][]{
+                            {0, 1},
+                            {1, 0},
+                            {0, -1},
+                            {-1, 0}
+                    };
 
-            carry = 0;
+                    for (int[] delta : deltas) {
+                        int newRow = currentCoords[0] + delta[0];
+                        int newCol = currentCoords[1] + delta[1];
+                        if (!coordsOfVisited1s.contains(getCoords(newRow, newCol)) && isCoordsWithinBounds(newRow, newCol, grid) && grid[newRow][newCol] == '1') {
+                            coordsOfVisited1s.add(newRow + "," + newCol);
+                            queue.add(new int[]{newRow, newCol});
+                        }
+                    }
 
-            if (currentSum == 0) {
-                result.insert(0, '0');
-            } else if (currentSum == 1) {
-                result.insert(0, '1');
-            } else if (currentSum == 2) {
-                result.insert(0, '0');
-                carry = 1;
-            } else {
-                result.insert(0, '1');
-                carry = 1;
+                }
+
+                numOfIslands++;
+
             }
         }
 
-        if (carry == 1) {
-            result.insert(0, "1");
-        }
+        return numOfIslands;
 
-        return result.toString();
+    }
 
+    private boolean isCoordsWithinBounds(final int row, final int col, final char[][] grid) {
+        return row >=0 && row < grid.length && col >=0 && col < grid[0].length;
+    }
+
+    private String getCoords(final int row, final int col) {
+        return row + "," + col;
     }
 
 }
