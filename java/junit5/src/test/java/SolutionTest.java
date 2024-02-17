@@ -1,79 +1,27 @@
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 class SolutionTest {
 
-    @Test
-    void testNumIslands() {
-
-        final char[][] grid = new char[][]{
-                {'1','1','1','1','0'},
-                {'1','1','0','1','0'},
-                {'1','1','0','0','0'},
-                {'0','0','0','0','0'}
-        };
-
-        final Solution solution = new Solution();
-
-        final int numberOfIslands = solution.numIslands(grid);
-
-        assertEquals(1, numberOfIslands);
-
+    private static Stream<Arguments> getArgsForTestMergeSortedArray() {
+        return Stream.of(
+                Arguments.of(new int[]{1,2,3,0,0,0}, 3, new int[]{2,5,6}, 3, new int[]{1,2,2,3,5,6})
+        );
     }
 
-    @Test
-    void testNumIslands2() {
-
-        final char[][] grid = new char[][]{
-             {'1','1','1','1','1','0','1','1','1','1','1','1','1','1','1','0','1','0','1','1'}
-            ,{'0','1','1','1','1','1','1','1','1','1','1','1','1','0','1','1','1','1','1','0'}
-            ,{'1','0','1','1','1','0','0','1','1','0','1','1','1','1','1','1','1','1','1','1'}
-            ,{'1','1','1','1','0','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1'}
-            ,{'1','0','0','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1'}
-            ,{'1','0','1','1','1','1','1','1','0','1','1','1','0','1','1','1','0','1','1','1'}
-            ,{'0','1','1','1','1','1','1','1','1','1','1','1','0','1','1','0','1','1','1','1'}
-            ,{'1','1','1','1','1','1','1','1','1','1','1','1','0','1','1','1','1','0','1','1'}
-            ,{'1','1','1','1','1','1','1','1','1','1','0','1','1','1','1','1','1','1','1','1'}
-            ,{'1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1'}
-            ,{'0','1','1','1','1','1','1','1','0','1','1','1','1','1','1','1','1','1','1','1'}
-            ,{'1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1'}
-            ,{'1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1'}
-            ,{'1','1','1','1','1','0','1','1','1','1','1','1','1','0','1','1','1','1','1','1'}
-            ,{'1','0','1','1','1','1','1','0','1','1','1','0','1','1','1','1','0','1','1','1'}
-            ,{'1','1','1','1','1','1','1','1','1','1','1','1','0','1','1','1','1','1','1','0'}
-            ,{'1','1','1','1','1','1','1','1','1','1','1','1','1','0','1','1','1','1','0','0'}
-            ,{'1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1'}
-            ,{'1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1'}
-            ,{'1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1'}
-        };
-
+    @ParameterizedTest
+    @MethodSource("getArgsForTestMergeSortedArray")
+    void testMergeSortedArray(final int[] nums1, final int m, final int[] nums2, final int n, final int[] mergedArray) {
         final Solution solution = new Solution();
 
-        final int numberOfIslands = solution.numIslands(grid);
+        solution.merge(nums1, m, nums2, n);
 
-        assertEquals(1, numberOfIslands);
-
-    }
-
-    @Test
-    void testScratchpad() {
-        final char[][] grid = new char[][]{
-                {'1','1','1','1','0'},
-                {'1','1','0','1','0'},
-                {'1','1','0','0','0'},
-                {'0','0','0','0','0'}
-        };
-
-        if (grid[0][1] == '1') {
-            System.out.println("Works");
-        } else {
-            System.out.println("Doesn't work");
-        }
-
-        if (grid[3][1] != '1') {
-            System.out.println("Works again");
-        }
+        assertArrayEquals(mergedArray, nums1);
     }
 
 }
