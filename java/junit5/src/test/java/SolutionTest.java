@@ -1,36 +1,38 @@
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
-
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SolutionTest {
 
-    private static Stream<Arguments> getArgsForTestSumRegion() {
-        return Stream.of(
-                Arguments.of(new int[][]{
-                        {1,0,1},
-                        {0,-2,3}
-                }, 2, 2),
-                Arguments.of(new int[][] {
-                        {2,2,-1}
-                }, 0, -1)
-        );
-    }
 
-    @ParameterizedTest
-    @MethodSource("getArgsForTestSumRegion")
-    void testSumRegion(final int[][] matrix, final int k, final int expectedSum) {
-
+    @Test
+    void testMaxDepth() {
         final Solution solution = new Solution();
 
-        final int sum = solution.maxSumSubmatrix(matrix, k);
+        final TreeNode root = new TreeNode(1);
+        root.left = new TreeNode(0);
+        root.right = new TreeNode(2);
 
-        assertEquals(expectedSum, sum);
+        final int maxDepth = solution.maxDepth(root);
 
+        assertEquals(2, maxDepth);
+    }
+
+    @Test
+    void testMaxDepth2() {
+        final Solution solution = new Solution();
+
+        final TreeNode root = new TreeNode(
+                3,
+                new TreeNode(9),
+                new TreeNode(
+                        20, new TreeNode(15), new TreeNode(7)
+                )
+        );
+
+        final int maxDepth = solution.maxDepth(root);
+
+        assertEquals(3, maxDepth);
     }
 
 }
