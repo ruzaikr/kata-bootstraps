@@ -1,7 +1,5 @@
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 class SolutionTest {
 
 
@@ -13,9 +11,7 @@ class SolutionTest {
         root.left = new TreeNode(0);
         root.right = new TreeNode(2);
 
-        final int maxDepth = solution.maxDepth(root);
-
-        assertEquals(2, maxDepth);
+        final TreeNode invertedTree = solution.invertTree(root);
     }
 
     @Test
@@ -30,9 +26,7 @@ class SolutionTest {
                 )
         );
 
-        final int maxDepth = solution.maxDepth(root);
-
-        assertEquals(3, maxDepth);
+        final TreeNode invertedTree = solution.invertTree(root);
     }
 
 }

@@ -1,15 +1,18 @@
 public class Solution {
 
-    public int maxDepth(TreeNode root) {
+    public TreeNode invertTree(TreeNode root) {
 
         if (root == null) {
-            return 0;
+            return null;
         }
 
-        int left = maxDepth(root.left);
-        int right = maxDepth(root.right);
+        TreeNode invertedRightTree = invertTree(root.right);
+        TreeNode invertedLeftTree = invertTree(root.left);
 
-        return Math.max(left, right) + 1;
+        root.left = invertedRightTree;
+        root.right = invertedLeftTree;
+
+        return root;
 
     }
 
