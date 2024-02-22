@@ -1,46 +1,41 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class Solution {
 
-    public List<List<Integer>> palindromePairs(String[] words) {
+    public String shortestPalindrome(String s) {
 
-        if (words.length == 0) {
-            return List.of();
+        if (isPalindrome(s)) {
+            return s;
         }
 
-        List<List<Integer>> palindromePairs = new ArrayList<>(words.length);
-
-        for (int i = 0; i < words.length; i++) {
-            for (int j = 0; j < words.length; j++) {
-                if (i == j) {
-                    continue;
-                }
-
-                String concatenation = words[i] + words[j];
-                if (isPalindrome(concatenation)) {
-                    palindromePairs.add(List.of(i, j));
-                }
+        String remainingS = null;
+        for (int i = s.length() - 1; i > 0; i--) {
+            if (isPalindrome(s.substring(0, i))) {
+                remainingS = s.substring(i);
+                break;
             }
         }
 
-        return palindromePairs;
+        String reversedRemainingS = new StringBuilder(remainingS).reverse().toString();
+
+        return reversedRemainingS + s;
 
     }
 
-    private boolean isPalindrome(String word) {
+    public boolean isPalindrome(String word) {
         char[] charsOfWord = word.toCharArray();
         int leftPtr = 0;
-        int rightPtr = charsOfWord.length - 1;
+        int rightPtr = word.length() - 1;
 
-        while (leftPtr <= rightPtr) {
+        while (leftPtr < rightPtr) {
             if (charsOfWord[leftPtr] != charsOfWord[rightPtr]) {
                 return false;
             }
             leftPtr++;
             rightPtr--;
         }
-
         return true;
     }
 
