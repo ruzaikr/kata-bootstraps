@@ -1,57 +1,65 @@
+import java.util.*;
+
 class Solution {
 
-    public int longestIncreasingPath(int[][] matrix) {
+    /*
 
-        if (matrix.length == 1 && matrix[0].length == 1) {
-            return matrix[0][0];
-        }
+    1. Starting from the root, traverse the entire tree using dfs.
+    2. During the dfs, insert the treeNode into a hashMap where the key is the x-axis value of the treeNode.
+    3. To get the x-axis value of the treeNode, we need to pass an x-axis value from the caller of dfs.
 
-        int[][] cache = new int[matrix.length][matrix[0].length];
-        int longestPathSize = 0;
-        for (int row = 0; row < matrix.length; row++) {
-            for (int col = 0; col < matrix[0].length; col++) {
-                int pathSize = dfs(matrix, row, col, cache);
-                if (pathSize > longestPathSize) {
-                    longestPathSize = pathSize;
+    4. Iterate over the keys of the hashMap
+
+
+     */
+
+    public List<List<Integer>> verticalTraversal(TreeNode root) {
+
+        Map<Integer, Map<Integer, List<Integer>>> xToYToVals = new HashMap<>();
+
+        dfs(root, 0, 0, xToYToVals);
+
+        List<Integer> sortedKeySetX = xToYToVals.keySet().stream().sorted().toList();
+        List<List<Integer>> result = new LinkedList<>();
+
+        for (int x : sortedKeySetX) {
+
+            Map<Integer, List<Integer>> yToVals = xToYToVals.get(x);
+
+            List<Integer> sortedKeySetY = yToVals.keySet().stream().sorted().toList();
+
+            List<Integer> nameItLater = new LinkedList<>();
+
+            for (int y : sortedKeySetY) {
+                List<Integer> vals = yToVals.get(y);
+                if (vals.size() == 1) {
+                    nameItLater.add(vals.get(0));
+                } else {
+                    nameItLater.addAll(vals.stream().sorted().toList());
                 }
             }
+
+            result.add(nameItLater);
+
         }
 
-        return longestPathSize;
+        return result;
 
     }
 
-    private int dfs(int[][] matrix, int row, int col, int[][] cache) {
-
-        if (cache[row][col] > 0) {
-            return cache[row][col];
+    private void dfs(TreeNode treeNode, int x, int y, Map<Integer, Map<Integer, List<Integer>>> xToYToVals) {
+        if (treeNode == null) {
+            return;
         }
 
-        int height = matrix[row][col];
+        Map<Integer, List<Integer>> yToVals = xToYToVals.getOrDefault(x, new HashMap<>());
+        List<Integer> vals = yToVals.getOrDefault(y, new LinkedList<>());
+        vals.add(treeNode.val);
+        yToVals.put(y, vals);
+        xToYToVals.put(x, yToVals);
 
-        int[][] deltas = new int[][]{{0,1},{1,0},{0,-1},{-1,0}};
-        for (int[] delta : deltas) {
-            int nextRow = row + delta[0];
-            int nextCol = col + delta[1];
-
-            if (!isValid(nextRow, nextCol, height, matrix)) {
-                continue;
-            }
-
-            int pathSizeOfNextRowNextCol = dfs(matrix, nextRow, nextCol, cache);
-
-            if (pathSizeOfNextRowNextCol > cache[row][col]) {
-                cache[row][col] = pathSizeOfNextRowNextCol;
-            }
-        }
-
-        cache[row][col] = cache[row][col] + 1;
-        return cache[row][col];
-
-    }
-
-    private boolean isValid(int row, int col, int prevHeight, int[][] matrix) {
-        return row >= 0 && col >= 0 && row < matrix.length && col < matrix[0].length && matrix[row][col] > prevHeight;
+        dfs(treeNode.left, x - 1, y + 1, xToYToVals);
+        dfs(treeNode.right, x + 1, y + 1, xToYToVals);
     }
 
 }
