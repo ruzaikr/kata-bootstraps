@@ -11,8 +11,9 @@ class SolutionTest {
     private static Stream<Arguments> getArgs() {
         return Stream.of(
                 Arguments.of(new int[][]{
-                        {6,1,2},
-                        {1,4,3}
+                        {9,9,4},
+                        {6,6,8},
+                        {2,1,1}
                 }, 4)
         );
     }
@@ -21,7 +22,7 @@ class SolutionTest {
     @MethodSource("getArgs")
     void testMaximalRectangle(int[][] matrix, int expectedLongestPathSize) {
         Solution solution = new Solution();
-        int longestPathSize = solution.getLongestPath(matrix);
+        int longestPathSize = solution.longestIncreasingPath(matrix);
         assertEquals(expectedLongestPathSize, longestPathSize);
     }
 
