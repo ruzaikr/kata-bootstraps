@@ -12,56 +12,61 @@ class Solution {
 
         int leftPtr = 0;
         int rightPtr = nums.length - 1;
+        int last = nums[nums.length - 1];
+
+        while (leftPtr < rightPtr) {
+            int midPtr = (leftPtr + rightPtr)/2;
+            int mid = nums[midPtr];
+
+            if (mid > last) {
+                leftPtr = midPtr + 1;
+            } else {
+                rightPtr = midPtr;
+            }
+
+        }
+
+        int pivotIndex = leftPtr;
+
+        if (pivotIndex == 0) {
+            return binarySearch(nums, target);
+        }
+
+        int[] firstPortion = Arrays.copyOfRange(nums, 0, pivotIndex);
+        int[] secondPortion = Arrays.copyOfRange(nums, pivotIndex, nums.length);
+
+        int firstSearch = binarySearch(firstPortion, target);
+        int secondSearch = binarySearch(secondPortion, target);
+
+        if (firstSearch == -1 && secondSearch == -1) {
+            return -1;
+        } else if (firstSearch == -1) {
+            return secondSearch + pivotIndex;
+        }
+
+        return firstSearch;
+
+    }
+
+    private int binarySearch(int[] nums, int target) {
+
+        int leftPtr = 0;
+        int rightPtr = nums.length - 1;
 
         while (leftPtr <= rightPtr) {
             int midPtr = (leftPtr + rightPtr)/2;
             int mid = nums[midPtr];
 
-            if (mid == target) {
+            if (target > mid) {
+                leftPtr = midPtr + 1;
+            } else if (target < mid) {
+                rightPtr = midPtr - 1;
+            } else {
                 return midPtr;
             }
-
-            int left = nums[leftPtr];
-            int right = nums[rightPtr];
-
-
-            if (mid >= left) {
-                // mid is in the left sorted portion
-                if (target < mid) {
-                    if (target > left) {
-                        rightPtr = midPtr - 1;
-                    } else {
-                        leftPtr = midPtr + 1;
-                    }
-                } else {
-                    leftPtr = midPtr + 1;
-                }
-
-            } else {
-                // mid is in the right sorted portion
-                if (target < mid) {
-                    rightPtr = midPtr - 1;
-                } else {
-                    if (target < right) {
-                        leftPtr = midPtr + 1;
-                    } else {
-                        rightPtr = midPtr - 1;
-                    }
-                }
-
-            }
-
         }
 
-        if (leftPtr <= 0 || leftPtr >= nums.length) {
-            return -1;
-        }
-
-        if (nums[leftPtr] != target) {
-            return -1;
-        }
-
-        return leftPtr;
+        return -1;
 
     }
 
