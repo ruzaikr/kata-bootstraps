@@ -12,23 +12,20 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SolutionTest {
 
-    @Test
-    void testMatrix() {
-        int[][] matrix = new int[][]{
-                {0,0,0},
-                {0,1,0},
-                {1,1,1}
-        };
+    private static Stream<Arguments> getArgs() {
+        return Stream.of(
+                Arguments.of(new int[]{1,3,5}, 1, 0),
+                Arguments.of(new int[]{1}, 1, 0)
+//                Arguments.of(new int[]{4,5,6,7,0,1,2}, 0, 4)
+        );
+    }
 
-        int[][] output = new Solution().updateMatrix(matrix);
-
-        int[][] expectedOutput = new int[][]{
-                {0,0,0},
-                {0,1,0},
-                {1,2,1}
-        };
-
-        assertArrayEquals(expectedOutput, output);
+    @ParameterizedTest
+    @MethodSource("getArgs")
+    void testSearch(int[] rotatedNums, int target, int expectedOutput) {
+        Solution solution = new Solution();
+        int output = solution.search(rotatedNums, target);
+        assertEquals(expectedOutput, output);
     }
 
 }

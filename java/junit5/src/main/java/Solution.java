@@ -4,55 +4,65 @@ class Solution {
 
     /*
     *
-    * 1. Iterate over all cells in the matrix and enqueue all cells containing 0
-    * 2. While queue is not empty, dequeue a cell and process its neighbors
     *
     * */
 
-    public int[][] updateMatrix(int[][] mat) {
 
-        int[][] distances = new int[mat.length][mat[0].length];
-        boolean[][] visited = new boolean[mat.length][mat[0].length];
+    public int search(int[] nums, int target) {
 
-        Queue<int[]> queue = new LinkedList<>();
+        int leftPtr = 0;
+        int rightPtr = nums.length - 1;
 
-        for (int row = 0; row < mat.length; row++) {
-            for (int col = 0; col < mat[0].length; col++) {
-                if (mat[row][col] == 0) {
-                    visited[row][col] = true;
-                    queue.add(new int[]{row,col});
-                }
-            }
-        }
+        while (leftPtr <= rightPtr) {
+            int midPtr = (leftPtr + rightPtr)/2;
+            int mid = nums[midPtr];
 
-        while (!queue.isEmpty()) {
-            int[] rowColDist = queue.remove();
-            int row = rowColDist[0];
-            int col = rowColDist[1];
-            int distance = distances[row][col];
-
-            visited[row][col] = true;
-            distances[row][col] = distance;
-
-            int[][] deltas = new int[][]{{0,1},{1,0},{0,-1},{-1,0}};
-            for (int[] delta : deltas) {
-                int newRow = row+delta[0];
-                int newCol = col+delta[1];
-                if (isValid(newRow, newCol, mat) && !visited[newRow][newCol]) {
-                    visited[newRow][newCol] = true;
-                    distances[newRow][newCol] = distance + 1;
-                    queue.add(new int[]{newRow,newCol});
-                }
+            if (mid == target) {
+                return midPtr;
             }
 
+            int left = nums[leftPtr];
+            int right = nums[rightPtr];
+
+
+            if (mid >= left) {
+                // mid is in the left sorted portion
+                if (target < mid) {
+                    if (target > left) {
+                        rightPtr = midPtr - 1;
+                    } else {
+                        leftPtr = midPtr + 1;
+                    }
+                } else {
+                    leftPtr = midPtr + 1;
+                }
+
+            } else {
+                // mid is in the right sorted portion
+                if (target < mid) {
+                    rightPtr = midPtr - 1;
+                } else {
+                    if (target < right) {
+                        leftPtr = midPtr + 1;
+                    } else {
+                        rightPtr = midPtr - 1;
+                    }
+                }
+
+            }
+
         }
 
-        return distances;
+        if (leftPtr <= 0 || leftPtr >= nums.length) {
+            return -1;
+        }
 
-    }
+        if (nums[leftPtr] != target) {
+            return -1;
+        }
 
-    private boolean isValid(int row, int col, int[][] matrix) {
-        return row >= 0 && col >= 0 && row < matrix.length && col < matrix[0].length;
+        return leftPtr;
+
     }
 
 
