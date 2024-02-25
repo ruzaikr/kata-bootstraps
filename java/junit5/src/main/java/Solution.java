@@ -19,7 +19,8 @@ class Solution {
         for (int row = 0; row < mat.length; row++) {
             for (int col = 0; col < mat[0].length; col++) {
                 if (mat[row][col] == 0) {
-                    queue.add(new int[]{row,col,0});
+                    visited[row][col] = true;
+                    queue.add(new int[]{row,col});
                 }
             }
         }
@@ -28,11 +29,7 @@ class Solution {
             int[] rowColDist = queue.remove();
             int row = rowColDist[0];
             int col = rowColDist[1];
-            int distance = rowColDist[2];
-
-            if (visited[row][col]) {
-                continue;
-            }
+            int distance = distances[row][col];
 
             visited[row][col] = true;
             distances[row][col] = distance;
@@ -42,7 +39,9 @@ class Solution {
                 int newRow = row+delta[0];
                 int newCol = col+delta[1];
                 if (isValid(newRow, newCol, mat) && !visited[newRow][newCol]) {
-                    queue.add(new int[]{newRow,newCol,distance+1});
+                    visited[newRow][newCol] = true;
+                    distances[newRow][newCol] = distance + 1;
+                    queue.add(new int[]{newRow,newCol});
                 }
             }
 
