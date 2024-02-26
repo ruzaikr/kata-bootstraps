@@ -12,21 +12,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SolutionTest {
 
-    private static Stream<Arguments> getArgs() {
-        return Stream.of(
-                Arguments.of(new int[]{5,1,3}, 5, 0)
-//                Arguments.of(new int[]{4,5,6,7,0,1,2}, 0, 4)
-//                Arguments.of(new int[]{1,3,5}, 1, 0),
-//                Arguments.of(new int[]{1}, 1, 0)
+    @Test
+    void testCombinationSum() {
+        Solution solution = new Solution();
+        List<List<Integer>> output = solution.combinationSum(new int[]{2,3,6,7}, 7);
+        List<List<Integer>> expected = List.of(
+                List.of(2,2,3),
+                List.of(7)
         );
+        assertArrayEquals(expected.toArray(), output.toArray());
     }
 
-    @ParameterizedTest
-    @MethodSource("getArgs")
-    void testSearch(int[] rotatedNums, int target, int expectedOutput) {
-        Solution solution = new Solution();
-        int output = solution.search(rotatedNums, target);
-        assertEquals(expectedOutput, output);
-    }
 
 }

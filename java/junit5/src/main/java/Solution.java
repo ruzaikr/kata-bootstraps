@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.stream.Stream;
 
 class Solution {
 
@@ -7,67 +8,32 @@ class Solution {
     *
     * */
 
+    protected void backtrack(int remain, LinkedList<Integer> comb, int start, int[] candidates, List<List<Integer>> results) {
 
-    public int search(int[] nums, int target) {
-
-        int leftPtr = 0;
-        int rightPtr = nums.length - 1;
-        int last = nums[nums.length - 1];
-
-        while (leftPtr < rightPtr) {
-            int midPtr = (leftPtr + rightPtr)/2;
-            int mid = nums[midPtr];
-
-            if (mid > last) {
-                leftPtr = midPtr + 1;
-            } else {
-                rightPtr = midPtr;
-            }
-
+        if (remain == 0) {
+            // make a deep copy of the current combination
+            results.add(new ArrayList<Integer>(comb));
+            return;
+        } else if (remain < 0) {
+            // exceed the scope, stop exploration.
+            return;
         }
 
-        int pivotIndex = leftPtr;
-
-        if (pivotIndex == 0) {
-            return binarySearch(nums, target);
+        for (int i = start; i < candidates.length; ++i) {
+            // add the number into the combination
+            comb.add(candidates[i]);
+            this.backtrack(remain - candidates[i], comb, i, candidates, results);
+            // backtrack, remove the number from the combination
+            comb.removeLast();
         }
-
-        int[] firstPortion = Arrays.copyOfRange(nums, 0, pivotIndex);
-        int[] secondPortion = Arrays.copyOfRange(nums, pivotIndex, nums.length);
-
-        int firstSearch = binarySearch(firstPortion, target);
-        int secondSearch = binarySearch(secondPortion, target);
-
-        if (firstSearch == -1 && secondSearch == -1) {
-            return -1;
-        } else if (firstSearch == -1) {
-            return secondSearch + pivotIndex;
-        }
-
-        return firstSearch;
-
     }
 
-    private int binarySearch(int[] nums, int target) {
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> results = new ArrayList<List<Integer>>();
+        LinkedList<Integer> comb = new LinkedList<Integer>();
 
-        int leftPtr = 0;
-        int rightPtr = nums.length - 1;
-
-        while (leftPtr <= rightPtr) {
-            int midPtr = (leftPtr + rightPtr)/2;
-            int mid = nums[midPtr];
-
-            if (target > mid) {
-                leftPtr = midPtr + 1;
-            } else if (target < mid) {
-                rightPtr = midPtr - 1;
-            } else {
-                return midPtr;
-            }
-        }
-
-        return -1;
-
+        this.backtrack(target, comb, 0, candidates, results);
+        return results;
     }
 
 
