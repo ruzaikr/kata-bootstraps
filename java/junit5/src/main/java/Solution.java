@@ -4,29 +4,24 @@ import java.util.stream.Collectors;
 
 public class Solution {
 
-    public boolean isAnagram(String s, String t) {
+    public int search(int[] nums, int target) {
 
-        Map<Character, Integer> sOccurrences = s.chars().mapToObj(c -> (char) c)
-                .collect(Collectors.toMap(
-                        Function.identity(),
-                        c -> 1,
-                        Integer::sum,
-                        HashMap::new
-                ));
+        int leftPtr = 0;
+        int rightPtr = nums.length - 1;
 
-        for (char charInT : t.toCharArray()) {
-            if (!sOccurrences.containsKey(charInT)) {
-                return false;
+        while (leftPtr <= rightPtr) {
+            int midPtr = (leftPtr + rightPtr) / 2;
+            if (nums[midPtr] == target) {
+                return midPtr;
             }
-            int numberOfOccurrences = sOccurrences.get(charInT);
-            if (numberOfOccurrences > 1) {
-                sOccurrences.put(charInT, --numberOfOccurrences);
+            if (target > nums[midPtr]) {
+                leftPtr = midPtr + 1;
                 continue;
             }
-            sOccurrences.remove(charInT);
+            rightPtr = midPtr - 1;
         }
 
-        return sOccurrences.isEmpty();
+        return -1;
 
     }
 
