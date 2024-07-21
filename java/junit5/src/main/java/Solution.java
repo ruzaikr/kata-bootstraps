@@ -1,41 +1,36 @@
-import java.util.Stack;
+import java.util.*;
 
 public class Solution {
 
-    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+    private Set<Character> alphanumericChars = new HashSet<>(Arrays.asList(
+            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
+            'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+            'u', 'v', 'w', 'x', 'y', 'z',
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'));
 
-        if (list1 == null && list2 == null) {
-            return null;
-        }
-        if (list1 == null) {
-            return list2;
-        }
-        if (list2 == null) {
-            return list1;
-        }
+    public boolean isPalindrome(String s) {
 
-        if (list2.val < list1.val) {
-            ListNode temp = list2;
-            list2 = list1;
-            list1 = temp;
-        }
+        List<Character> alphanumericS = new LinkedList<>();
 
-        ListNode curr = list1;
-        ListNode detached = list2;
-
-        while (curr.next != null) {
-            if (curr.next.val > detached.val) {
-                ListNode temp = curr.next;
-                curr.next = detached;
-                detached = temp;
+        for (char c : s.toCharArray()) {
+            c = Character.toLowerCase(c);
+            if (alphanumericChars.contains(c)) {
+                alphanumericS.add(c);
             }
-                curr = curr.next;
-
         }
 
-        curr.next = detached;
+        int leftPtr = 0;
+        int rightPtr = alphanumericS.size() - 1;
 
-        return list1;
+        while (leftPtr < rightPtr) {
+            if (!alphanumericS.get(leftPtr).equals(alphanumericS.get(rightPtr))) {
+                return false;
+            }
+            leftPtr++;
+            rightPtr--;
+        }
+
+        return true;
 
     }
 }
