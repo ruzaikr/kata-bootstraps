@@ -1,48 +1,41 @@
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Stack;
 
 public class Solution {
 
-    public boolean isValid(String s) {
+    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
 
-        if (s.length() < 2) {
-            return false;
+        if (list1 == null && list2 == null) {
+            return null;
+        }
+        if (list1 == null) {
+            return list2;
+        }
+        if (list2 == null) {
+            return list1;
         }
 
-        Stack<Character> stack = new Stack<>();
+        if (list2.val < list1.val) {
+            ListNode temp = list2;
+            list2 = list1;
+            list1 = temp;
+        }
 
-        for (char c : s.toCharArray()) {
-            if (isCloseBracket(c)) {
-                if (stack.isEmpty() || !stack.peek().equals(getOpenBracket(c))) {
-                    return false;
-                }
-                stack.pop();
-                continue;
+        ListNode curr = list1;
+        ListNode detached = list2;
+
+        while (curr.next != null) {
+            if (curr.next.val > detached.val) {
+                ListNode temp = curr.next;
+                curr.next = detached;
+                detached = temp;
             }
-            stack.push(c);
+                curr = curr.next;
+
         }
 
-        return stack.isEmpty();
-    }
+        curr.next = detached;
 
-    private boolean isCloseBracket(char c) {
-        return c == ')' || c == '}' || c == ']';
-    }
+        return list1;
 
-    private char getOpenBracket(char c) {
-        if (c == ')') {
-            return '(';
-        }
-
-        if (c == '}') {
-            return '{';
-        }
-
-        if (c == ']') {
-            return '[';
-        }
-
-        return ' ';
     }
 }
